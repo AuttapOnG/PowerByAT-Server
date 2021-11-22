@@ -1492,13 +1492,15 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 			return 0;
 
 		if( (sce = sc->data[SC_LIGHTNINGWALK]) && flag&BF_LONG && rnd()%100 < sce->val1 ) {
-			int dx[8] = { 0,-1,-1,-1,0,1,1,1 };
-			int dy[8] = { 1,1,0,-1,-1,-1,0,1 };
-			uint8 dir = map_calc_dir(bl, src->x, src->y);
+			if (!map_flag_gvg2(bl->m)) {
+				int dx[8] = { 0,-1,-1,-1,0,1,1,1 };
+				int dy[8] = { 1,1,0,-1,-1,-1,0,1 };
+				uint8 dir = map_calc_dir(bl, src->x, src->y);
 
-			if( unit_movepos(bl, src->x-dx[dir], src->y-dy[dir], 1, 1) ) {
-				clif_blown(bl);
-				unit_setdir(bl, dir);
+				if (unit_movepos(bl, src->x - dx[dir], src->y - dy[dir], 1, 1)) {
+					clif_blown(bl);
+					unit_setdir(bl, dir);
+				}
 			}
 			d->dmg_lv = ATK_DEF;
 			status_change_end(bl, SC_LIGHTNINGWALK, INVALID_TIMER);
