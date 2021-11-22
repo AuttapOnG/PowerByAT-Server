@@ -9408,9 +9408,9 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 					continue;
 				switch (i) {
 					case SC_WEIGHT50:		case SC_WEIGHT90:		case SC_HALLUCINATION:
-					case SC_STRIPWEAPON:		case SC_STRIPSHIELD:		case SC_STRIPARMOR:
+					/*case SC_STRIPWEAPON:		case SC_STRIPSHIELD:		case SC_STRIPARMOR:
 					case SC_STRIPHELM:		case SC_CP_WEAPON:		case SC_CP_SHIELD:
-					case SC_CP_ARMOR:		case SC_CP_HELM:		case SC_COMBO:
+					case SC_CP_ARMOR:		case SC_CP_HELM:*/		case SC_COMBO:
 					case SC_STRFOOD:		case SC_AGIFOOD:		case SC_VITFOOD:
 					case SC_INTFOOD:		case SC_DEXFOOD:		case SC_LUKFOOD:
 					case SC_HITFOOD:		case SC_FLEEFOOD:		case SC_BATKFOOD:
@@ -9437,8 +9437,8 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 					case SC_FOOD_VIT_CASH:		case SC_FOOD_DEX_CASH:		case SC_FOOD_INT_CASH:
 					case SC_FOOD_LUK_CASH:		case SC_ELECTRICSHOCKER:	case SC_BITE:
 					case SC__STRIPACCESSORY:	case SC__ENERVATION:		case SC__GROOMY:
-					case SC__IGNORANCE: 		case SC__LAZINESS:		case SC__UNLUCKY:
-					case SC__WEAKNESS:		case SC_SAVAGE_STEAK:		case SC_COCKTAIL_WARG_BLOOD:
+					/*case SC__IGNORANCE: case SC__LAZINESS:		case SC__UNLUCKY:
+					case SC__WEAKNESS:*/		case SC_SAVAGE_STEAK:		case SC_COCKTAIL_WARG_BLOOD:
 					case SC_MAGNETICFIELD:		case SC_MINOR_BBQ:		case SC_SIROMA_ICE_TEA:
 					case SC_DROCERA_HERB_STEAMED:	case SC_PUTTI_TAILS_NOODLES:	case SC_NEUTRALBARRIER_MASTER:
 					case SC_NEUTRALBARRIER:		case SC_STEALTHFIELD_MASTER:	case SC_STEALTHFIELD:
