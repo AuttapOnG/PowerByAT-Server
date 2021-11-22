@@ -10078,19 +10078,10 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 
 		case SC_DEVOTION:
 		{
-			struct block_list *d_bl;
-			struct status_change *d_sc;
-
-			if( (d_bl = map_id2bl(val1)) && (d_sc = status_get_sc(d_bl)) && d_sc->count ) { // Inherits Status From Source
-				const enum sc_type types[] = { SC_AUTOGUARD, SC_DEFENDER, SC_REFLECTSHIELD, SC_ENDURE };
-				int i = (map_flag_gvg2(bl->m) || map_getmapflag(bl->m, MF_BATTLEGROUND))?2:3;
-				while( i >= 0 ) {
-					enum sc_type type2 = types[i];
-					if( d_sc->data[type2] )
-						status_change_start(d_bl, bl, type2, 10000, d_sc->data[type2]->val1, 0, 0, (type2 == SC_REFLECTSHIELD ? 1 : 0), skill_get_time(status_sc2skill(type2),d_sc->data[type2]->val1), (type2 == SC_DEFENDER) ? SCSTART_NOAVOID : SCSTART_NOAVOID|SCSTART_NOICON);
-					i--;
-				}
-			}
+			status_change_end(bl, SC_AUTOGUARD, INVALID_TIMER);
+			status_change_end(bl, SC_DEFENDER, INVALID_TIMER);
+			status_change_end(bl, SC_REFLECTSHIELD, INVALID_TIMER);
+			status_change_end(bl, SC_ENDURE, INVALID_TIMER);
 			break;
 		}
 
