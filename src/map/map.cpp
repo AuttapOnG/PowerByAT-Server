@@ -704,6 +704,7 @@ int map_foreachinrangeVWithCheckParty(int (*func)(struct block_list*,va_list),st
 	int blockcount = bl_list_count, i;
 	int x0, x1, y0, y1;
 	va_list ap_copy;
+	bool thisPartyIsExits = false;
 
 	m = center->m;
 	if( m < 0 )
@@ -724,14 +725,29 @@ int map_foreachinrangeVWithCheckParty(int (*func)(struct block_list*,va_list),st
 		for( by = y0 / BLOCK_SIZE; by <= y1 / BLOCK_SIZE; by++ ) {
 			for( bx = x0 / BLOCK_SIZE; bx <= x1 / BLOCK_SIZE; bx++ ) {
 				for(bl = mapdata->block[ bx + by * mapdata->bxs ]; bl != NULL; bl = bl->next ) {
-					if( bl->type&type
+					if (bl->type & type
 						&& bl->x >= x0 && bl->x <= x1 && bl->y >= y0 && bl->y <= y1
 #ifdef CIRCULAR_AREA
 						&& check_distance_bl(center, bl, range)
 #endif
-						&& ( !wall_check || path_search_long(NULL, center->m, center->x, center->y, bl->x, bl->y, CELL_CHKWALL) )
-					  	&& bl_list_count < BL_LIST_MAX )
-						bl_list[ bl_list_count++ ] = bl;
+						&& (!wall_check || path_search_long(NULL, center->m, center->x, center->y, bl->x, bl->y, CELL_CHKWALL))
+						&& bl_list_count < BL_LIST_MAX)
+						thisPartyIsExits = false;
+						struct status_change *d_sc = status_get_sc(bl);
+						if (d_sc->data[SC_DEVOTION]) {
+							for (int a = 0; a < bl_list_count; a++) {
+								struct map_session_data *bl_sd = (struct map_session_data *)bl;
+								struct map_session_data* ext_sd = (struct map_session_data*)bl_list[a];
+								if (bl_sd->status.party_id != 0
+									&& ext_sd->status.party_id != 0
+									&& bl_sd->status.party_id == ext_sd->status.party_id) {
+									thisPartyIsExits = true;
+								}
+							}
+						}
+						if (thisPartyIsExits == false) {
+							bl_list[bl_list_count++] = bl;
+						}
 				}
 			}
 		}
