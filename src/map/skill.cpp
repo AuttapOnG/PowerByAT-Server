@@ -20147,28 +20147,31 @@ static int skill_destroy_trap(struct block_list *bl, va_list ap)
 
 	tick = va_arg(ap, t_tick);
 
-	if (su->alive && (sg = su->group) && skill_get_inf2(sg->skill_id)&INF2_TRAP) {
-		switch( sg->unit_id ) {
-			case UNT_CLAYMORETRAP:
-			case UNT_FIRINGTRAP:
-			case UNT_ICEBOUNDTRAP:
-				map_foreachinrange(skill_trap_splash,&su->bl, skill_get_splash(sg->skill_id, sg->skill_lv), sg->bl_flag|BL_SKILL|~BCT_SELF, &su->bl,tick);
-				break;
-			case UNT_LANDMINE:
-			case UNT_BLASTMINE:
-			case UNT_SHOCKWAVE:
-			case UNT_SANDMAN:
-			case UNT_FLASHER:
-			case UNT_FREEZINGTRAP:
-			case UNT_CLUSTERBOMB:
-				if (battle_config.skill_wall_check && !(skill_get_nk(sg->skill_id)&NK_NO_DAMAGE))
-					map_foreachinshootrange(skill_trap_splash,&su->bl, skill_get_splash(sg->skill_id, sg->skill_lv), sg->bl_flag, &su->bl,tick);
-				else
-					map_foreachinallrange(skill_trap_splash,&su->bl, skill_get_splash(sg->skill_id, sg->skill_lv), sg->bl_flag, &su->bl,tick);
-				break;
+	if (su->alive && (sg = su->group)) {
+		if ((skill_get_inf2(sg->skill_id) && INF2_TRAP) || sg->unit_id == UNT_ANKLESNARE) {
+			switch( sg->unit_id ) {
+				case UNT_CLAYMORETRAP:
+				case UNT_FIRINGTRAP:
+				case UNT_ICEBOUNDTRAP:
+				case UNT_ANKLESNARE:
+					map_foreachinrange(skill_trap_splash,&su->bl, skill_get_splash(sg->skill_id, sg->skill_lv), sg->bl_flag|BL_SKILL|~BCT_SELF, &su->bl,tick);
+					break;
+				case UNT_LANDMINE:
+				case UNT_BLASTMINE:
+				case UNT_SHOCKWAVE:
+				case UNT_SANDMAN:
+				case UNT_FLASHER:
+				case UNT_FREEZINGTRAP:
+				case UNT_CLUSTERBOMB:
+					if (battle_config.skill_wall_check && !(skill_get_nk(sg->skill_id)&NK_NO_DAMAGE))
+						map_foreachinshootrange(skill_trap_splash,&su->bl, skill_get_splash(sg->skill_id, sg->skill_lv), sg->bl_flag, &su->bl,tick);
+					else
+						map_foreachinallrange(skill_trap_splash,&su->bl, skill_get_splash(sg->skill_id, sg->skill_lv), sg->bl_flag, &su->bl,tick);
+					break;
+			}
+			// Traps aren't recovered.
+			skill_delunit(su);
 		}
-		// Traps aren't recovered.
-		skill_delunit(su);
 	}
 
 	return 0;
