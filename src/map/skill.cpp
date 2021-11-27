@@ -13119,9 +13119,8 @@ struct skill_unit_group *skill_unitsetting(struct block_list *src, uint16 skill_
 	case LG_BANDING:
 		limit = -1;
 		break;
-	case WM_POEMOFNETHERWORLD:	// Can't be placed on top of Land Protector.
-		if( skill_id == WM_POEMOFNETHERWORLD && map_flag_gvg2(src->m) )
-			target = BCT_ALL;
+	case WM_POEMOFNETHERWORLD:
+		break;
 	case WM_SEVERE_RAINSTORM:
 	case SO_WATER_INSIGNIA:
 	case SO_FIRE_INSIGNIA:
