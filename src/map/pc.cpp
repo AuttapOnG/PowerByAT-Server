@@ -9445,7 +9445,7 @@ bool pc_candrop(struct map_session_data *sd, struct item *item)
 bool pc_can_attack( struct map_session_data *sd, int target_id ) {
 	nullpo_retr(false, sd);
 
-	if( pc_is90overweight(sd) || pc_isridingwug(sd) )
+	if( pc_is90overweight(sd) || pc_isridingwug(sd) || sd->state.blockedattack )
 		return false;
 
 	if (sd->state.block_action & PCBLOCK_ATTACK)

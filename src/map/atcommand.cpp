@@ -6637,7 +6637,7 @@ ACMD_FUNC(npctalk)
 	bool ifcolor=(*(command + 8) != 'c' && *(command + 8) != 'C')?0:1;
 	unsigned long color=0;
 
-	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT))
+	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT) || sd->state.blockedchat)
 		return -1; //no "chatting" while muted.
 
 	if(!ifcolor) {
@@ -6686,7 +6686,7 @@ ACMD_FUNC(pettalk)
 		return -1;
 	}
 
-	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT))
+	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT) || sd->state.blockedchat)
 		return -1; //no "chatting" while muted.
 
 	if (!message || !*message || sscanf(message, "%99[^\n]", mes) < 1) {
@@ -7570,7 +7570,7 @@ ACMD_FUNC(homtalk)
 		sd->cantalk_tick = gettick() + battle_config.min_chat_delay;
 	}
 
-	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT))
+	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT) || sd->state.blockedchat)
 		return -1; //no "chatting" while muted.
 
 	if ( !hom_is_active(sd->hd) ) {
@@ -7978,7 +7978,7 @@ ACMD_FUNC(me)
 	memset(tempmes, '\0', sizeof(tempmes));
 	memset(atcmd_output, '\0', sizeof(atcmd_output));
 
-	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT))
+	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT) || sd->state.blockedchat)
 		return -1; //no "chatting" while muted.
 
 	if (!message || !*message || sscanf(message, "%255[^\n]", tempmes) < 0) {

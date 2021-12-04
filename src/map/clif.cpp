@@ -10118,7 +10118,7 @@ static bool clif_process_message(struct map_session_data* sd, bool whisperFormat
 	if( is_atcommand( fd, sd, out_message, 1 )  )
 		return false;
 
-	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT))
+	if (sd->sc.cant.chat || (sd->state.block_action & PCBLOCK_CHAT) || sd->state.blockedchat)
 		return false; //no "chatting" while muted.
 
 	if( battle_config.min_chat_delay ) { //[Skotlex]

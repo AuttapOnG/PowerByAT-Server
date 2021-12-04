@@ -24426,6 +24426,30 @@ BUILDIN_FUNC(preg_match) {
 #endif
 }
 
+BUILDIN_FUNC(pcblockchat) {
+	TBL_PC *sd;
+	int id = script_getnum(st, 2);
+	sd = map_id2sd(id);
+	if (!sd)
+		sd = map_charid2sd(id);
+
+	if ( sd )
+		sd->state.blockedchat = script_getnum(st,3) > 0;
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(pcblockattack) {
+	TBL_PC *sd;
+	int id = script_getnum(st, 2);
+	sd = map_id2sd(id);
+	if (!sd)
+		sd = map_charid2sd(id);
+
+	if ( sd )
+		sd->state.blockedattack = script_getnum(st,3) > 0;
+	return SCRIPT_CMD_SUCCESS;
+}
+
 /// script command definitions
 /// for an explanation on args, see add_buildin_func
 struct script_function buildin_func[] = {
@@ -25046,6 +25070,9 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(achievement_condition,"i"),
 	BUILDIN_DEF(getvariableofinstance,"ri"),
 	BUILDIN_DEF(convertpcinfo,"vi"),
+
+	BUILDIN_DEF(pcblockchat,"ii"),
+	BUILDIN_DEF(pcblockattack,"ii"),
 #include "../custom/script_def.inc"
 
 	{NULL,NULL,NULL},

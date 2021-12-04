@@ -15044,6 +15044,10 @@ bool skill_check_condition_castbegin(struct map_session_data* sd, uint16 skill_i
 			return true;
 	}
 
+	if ( sd->state.blockedattack ) {
+		return 0;
+	}
+
 	if( pc_is90overweight(sd) ) {
 		clif_skill_fail(sd,skill_id,USESKILL_FAIL_WEIGHTOVER,0);
 		return false;
@@ -15952,6 +15956,10 @@ bool skill_check_condition_castend(struct map_session_data* sd, uint16 skill_id,
 
 	if( sd->skillitem == skill_id && !sd->skillitem_keep_requirement ) // Casting finished (Item skill or Hocus-Pocus)
 		return true;
+
+	if ( sd->state.blockedattack ) {
+		return 0;
+	}
 
 	if( pc_is90overweight(sd) ) {
 		clif_skill_fail(sd,skill_id,USESKILL_FAIL_WEIGHTOVER,0);
