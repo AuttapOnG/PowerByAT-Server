@@ -1,5 +1,5 @@
 prt_in,24,61,7	script	Perchik	47,{
-    if ( select ( "go to pvp", "spectator" ) == 1 ) {
+    if (select ( "go to pvp", "spectator") == 1) {
         warp "pvp_y_2-1",0,0;
     } else {
         pcblockchat getcharid(3), 1;
@@ -8,7 +8,8 @@ prt_in,24,61,7	script	Perchik	47,{
         warp "pvp_y_2-1",0,0;
     }    
     end;
+OnPCStatCalcEvent:
 OnPCLogoutEvent:
-    setoption 0x40, 0;
+	mapannounce "pvp_y_2-1","Match has been Cancelled by a GM.",0;
     end;
 }
