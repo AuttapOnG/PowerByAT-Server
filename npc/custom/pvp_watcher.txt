@@ -1,0 +1,14 @@
+prt_in,24,61,7	script	Perchik	47,{
+    if ( select ( "go to pvp", "spectator" ) == 1 ) {
+        warp "pvp_y_2-1",0,0;
+    } else {
+        pcblockchat getcharid(3), 1;
+        pcblockattack getcharid(3), 1;
+        setoption 0x40, 1;
+        warp "pvp_y_2-1",0,0;
+    }    
+    end;
+OnPCLogoutEvent:
+    setoption 0x40, 0;
+    end;
+}
